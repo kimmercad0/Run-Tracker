@@ -1,4 +1,6 @@
 
+using RunTracker.API.Models;
+
 namespace RunTracker.API.Data.Repositories{
 
     public class UserRepository : IRepository<User>

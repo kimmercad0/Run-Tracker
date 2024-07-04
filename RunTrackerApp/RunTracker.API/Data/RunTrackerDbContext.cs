@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RunTracker.API.Models;
 
 namespace RunTracker.API.Data{
 

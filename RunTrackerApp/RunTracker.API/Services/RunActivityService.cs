@@ -1,5 +1,5 @@
 
-using RunTracker.API.Data;
+using RunTracker.API.Models;
 using RunTracker.API.Data.Repositories;
 
 namespace RunTracker.API.Services{
@@ -37,7 +37,7 @@ namespace RunTracker.API.Services{
         {
             try
             {
-                _logger.LogInformation($"Deleting Activity ID: {id}");
+                _logger.LogInformation($"Deleting Activity ID: '{id}'");
                 var activity = _actRepository.GetById(id);
                 _actRepository.Delete(activity);
             }
@@ -52,7 +52,7 @@ namespace RunTracker.API.Services{
         {
             try
             {
-                _logger.LogInformation($"Retrieving Activity ID: {id}");
+                _logger.LogInformation($"Retrieving Activity ID: '{id}'");
                 return _actRepository.GetById(id) ?? null;
             }
             catch(Exception ex)
@@ -82,7 +82,7 @@ namespace RunTracker.API.Services{
         {
             try
             {
-                _logger.LogInformation($"Updating Activity ID: {activity.RunId}");
+                _logger.LogInformation($"Updating Activity ID: '{activity.RunId}'");
                 // Calculate the Duration and AveragePace
                 activity.Duration = activity.DateTimeEnded - activity.DateTimeStarted;
                 activity.AveragePace = TimeSpan.FromTicks(activity.Duration.Ticks / (long)activity.Distance);

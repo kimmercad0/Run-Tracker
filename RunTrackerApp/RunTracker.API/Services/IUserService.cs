@@ -1,4 +1,4 @@
-using RunTracker.API.Data;
+using RunTracker.API.Models;
 
 namespace RunTracker.API.Services{
 

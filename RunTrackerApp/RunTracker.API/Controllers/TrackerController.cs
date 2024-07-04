@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using RunTracker.API.Data;
+using RunTracker.API.Models;
 using RunTracker.API.Services;
 
 namespace RunTracker.API.Controllers
@@ -28,7 +28,7 @@ namespace RunTracker.API.Controllers
             try
             {
                 _userService.AddUser(user);
-                return Ok($"User {user.Name} added successfully.");
+                return Ok($"User '{user.Name}' added successfully.");
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace RunTracker.API.Controllers
                 var user = _userService.GetUser(id);
                 _userService.DeleteUser(id);
                 
-                return Ok($"User {user.Name} deleted successfully.");
+                return Ok($"User '{user.Name}' deleted successfully.");
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace RunTracker.API.Controllers
 
                 if (user == null)
                 {
-                    return NotFound($"User {user.Name} not found.");
+                    return NotFound($"User '{user.Name}' not found.");
                 }
 
                 return Ok(user);
@@ -95,7 +95,7 @@ namespace RunTracker.API.Controllers
             try
             {
                 _userService.UpdateUser(user);
-                return Ok($"User {user.Name} updated successfully.");
+                return Ok($"User '{user.Name}' updated successfully.");
             }
             catch (Exception ex)
             {
@@ -150,7 +150,7 @@ namespace RunTracker.API.Controllers
             {
                 _runActivityService.AddActivity(activity);
                 var user = _userService.GetUser(activity.UserId.Value);
-                return Ok($"Activity added successfully to {user.Name}.");
+                return Ok($"Activity added successfully to '{user.Name}'.");
             }
             catch(Exception ex)
             {
@@ -167,7 +167,7 @@ namespace RunTracker.API.Controllers
             {
                 _runActivityService.UpdateActivity(activity);
                 var user = _userService.GetUser(activity.UserId.Value);
-                return Ok($"Activity updated successfully to {user.Name}.");
+                return Ok($"Activity updated successfully to '{user.Name}'.");
             }
             catch(Exception ex)
             {
@@ -183,7 +183,7 @@ namespace RunTracker.API.Controllers
             try
             {
                 _runActivityService.DeleteActivity(id);
-                return Ok($"Activity {id} is deleted successfully.");
+                return Ok($"Activity ID '{id}' is deleted successfully.");
             }
             catch (Exception ex)
             {
