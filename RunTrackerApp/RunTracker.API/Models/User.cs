@@ -1,5 +1,5 @@
 ﻿
-namespace RunTracker.API.Data{
+namespace RunTracker.API.Models{
 
     public partial class User
     {

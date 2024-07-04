@@ -4,6 +4,6 @@ CREATE TABLE Users (
     Weight DECIMAL(5, 2) NOT NULL,
     Height DECIMAL(5, 2) NOT NULL,
     BirthDate DATETIME NOT NULL,
-    Age INT NULL,
-    BMI DECIMAL(5, 2) NULL
+    Age INT,
+    BMI DECIMAL(5, 2)
 );

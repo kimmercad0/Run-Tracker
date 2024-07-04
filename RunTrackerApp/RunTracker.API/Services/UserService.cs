@@ -1,5 +1,5 @@
 
-using RunTracker.API.Data;
+using RunTracker.API.Models;
 using RunTracker.API.Data.Repositories;
 
 namespace RunTracker.API.Services{
@@ -16,72 +16,113 @@ namespace RunTracker.API.Services{
         }
         public void AddUser(User user)
         {
-            // Calculate the age and BMI
-            DateTime currentDate = DateTime.Today;
-            decimal heightM = user.Height / (decimal)100.00;
-
-            if (user.BirthDate > currentDate)
+            try
             {
-                throw new Exception();
+                _logger.LogInformation($"Inserting User: '{user.Name}'");
+                // Calculate the age and BMI
+                DateTime currentDate = DateTime.Today;
+                decimal heightM = user.Height / (decimal)100.00;
+
+                if (user.BirthDate > currentDate)
+                {
+                    _logger.LogError($"{DateTime.Now}: Error occurred invalid 'BirthDate' {nameof(AddUser)}");
+                    throw new Exception("Error occurred invalid 'BirthDate'.");
+                }
+
+                int age = currentDate.Year - user.BirthDate.Year;
+
+                if (user.BirthDate.Month > currentDate.Month || (user.BirthDate.Month == currentDate.Month && user.BirthDate.Day > currentDate.Day))
+                {
+                    age--;
+                }
+
+                user.Age = age;
+                user.Bmi = user.Weight / (heightM * heightM);
+
+                _userRepository.Add(user);
             }
-
-            int age = currentDate.Year - user.BirthDate.Year;
-
-            if (user.BirthDate.Month > currentDate.Month || (user.BirthDate.Month == currentDate.Month && user.BirthDate.Day > currentDate.Day))
+            catch(Exception ex)
             {
-                age--;
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(AddUser)}");
+                throw;
             }
-
-            user.Age = age;
-            user.Bmi = user.Weight / (heightM * heightM);
-
-            _userRepository.Add(user);
         }
 
         public void DeleteUser(int id)
         {
-            var user = _userRepository.GetById(id);
-            
-            if(user == null)
+            try
             {
-                throw new Exception();
+                var user = _userRepository.GetById(id);
+                _logger.LogInformation($"Deleting User: '{user.Name}'");
+                _userRepository.Delete(user);
             }
-
-            _userRepository.Delete(user);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(DeleteUser)}");
+                throw;
+            }
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _userRepository.GetAll();
+            try
+            {
+                _logger.LogInformation($"Retrieving All User");
+                return _userRepository.GetAll();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(GetAllUsers)}");
+                throw;
+            }
         }
 
         public User? GetUser(int id)
         {
-            return _userRepository.GetById(id) ?? null;
+            try
+            {
+                _logger.LogInformation($"Retrieving User: '{id}'");
+                return _userRepository.GetById(id) ?? null;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(GetUser)}");
+                throw;
+            }
         }
 
         public void UpdateUser(User user)
         {
-            // Calculate the age and BMI
-            DateTime currentDate = DateTime.Today;
-            decimal heightM = user.Height / (decimal)100.00;
-
-            if (user.BirthDate > currentDate)
+            try
             {
-                throw new Exception();
+                _logger.LogInformation($"Updating User: '{user.Name}'");
+                 // Calculate the age and BMI
+                DateTime currentDate = DateTime.Today;
+                decimal heightM = user.Height / (decimal)100.00;
+
+                if (user.BirthDate > currentDate)
+                {
+                    _logger.LogError($"{DateTime.Now}: Error occurred invalid BirthDate {nameof(UpdateUser)}");
+                    throw new Exception("Error occurred invalid BirthDate.");
+                }
+
+                int age = currentDate.Year - user.BirthDate.Year;
+
+                if (user.BirthDate.Month > currentDate.Month || (user.BirthDate.Month == currentDate.Month && user.BirthDate.Day > currentDate.Day))
+                {
+                    age--;
+                }
+
+                user.Age = age;
+                user.Bmi = user.Weight / (heightM * heightM);
+
+                _userRepository.Update(user);
             }
-
-            int age = currentDate.Year - user.BirthDate.Year;
-
-            if (user.BirthDate.Month > currentDate.Month || (user.BirthDate.Month == currentDate.Month && user.BirthDate.Day > currentDate.Day))
+            catch(Exception ex)
             {
-                age--;
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(UpdateUser)}");
+                throw;
             }
-
-            user.Age = age;
-            user.Bmi = user.Weight / (heightM * heightM);
-
-            _userRepository.Update(user);
         }
     }
 }

@@ -1,4 +1,6 @@
 /.git
 /RunTrackerApp/RunTracker.API/bin
-/RunTrackerApp/RunTracker.API/bin
 /RunTrackerApp/RunTracker.API/obj
+
+/RunTrackerApp/RunTracker.API.Tests/bin
+/RunTrackerApp/RunTracker.API.Tests/obj

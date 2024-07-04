@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunTracker.API", "RunTracker.API\RunTracker.API.csproj", "{79DFB565-0A5C-4C8D-865C-2A6F2D5B0FA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunTracker.API.Tests", "RunTracker.API.Tests\RunTracker.API.Tests.csproj", "{14108EA5-1C3B-4D6F-A772-CBC6E4C14502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{79DFB565-0A5C-4C8D-865C-2A6F2D5B0FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79DFB565-0A5C-4C8D-865C-2A6F2D5B0FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79DFB565-0A5C-4C8D-865C-2A6F2D5B0FA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14108EA5-1C3B-4D6F-A772-CBC6E4C14502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14108EA5-1C3B-4D6F-A772-CBC6E4C14502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14108EA5-1C3B-4D6F-A772-CBC6E4C14502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14108EA5-1C3B-4D6F-A772-CBC6E4C14502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RunTracker.API.Data;
+using RunTracker.API.Models;
 using RunTracker.API.Data.Repositories;
 using RunTracker.API.Services;
 
