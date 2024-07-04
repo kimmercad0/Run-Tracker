@@ -22,8 +22,7 @@ namespace RunTracker.API.Controllers
 
         [HttpPost("AddUser")]
         public IActionResult AddUser(User user)
-        {
-            _logger.LogInformation("GetUser action called with ID: {UserId}", id);
+        {  
             try
             {
                 _userService.AddUser(user);
@@ -31,7 +30,7 @@ namespace RunTracker.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving user with ID: {UserId}", id);
+                _logger.LogError(ex, "Error occurred while retrieving user");
                 return BadRequest(ex.Message);
             }
         }
@@ -46,28 +45,44 @@ namespace RunTracker.API.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                _logger.LogError(ex, "Error occurred while deleting user");
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
         {
-            var users = _userService.GetAllUsers();
-            return Ok(users);
+           try 
+           {
+                var users = _userService.GetAllUsers();
+                return Ok(users);
+           }
+           catch(Exception ex)
+           {
+                _logger.LogError(ex, "Error occurred while retrieving all users");
+                return BadRequest(ex.Message);
+           }
         }
 
         [HttpGet("GetUser/{id}")]
         public IActionResult GetUser(int id)
         {
-            var user = _userService.GetUser(id);
-
-            if (user == null)
+            try
             {
-                return NotFound("User not found.");
-            }
+                var user = _userService.GetUser(id);
 
-            return Ok(user);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(user);
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, "Error occurred while retrieving user");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("UpdateUser")]
@@ -80,6 +95,7 @@ namespace RunTracker.API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while retrieving user");
                 return BadRequest(ex.Message);
             }
         }
@@ -88,33 +104,69 @@ namespace RunTracker.API.Controllers
         [HttpGet("GetActivity/{id}")]
         public IActionResult GetActivity(int id)
         {
-            var activity = _runActivityService.GetActivity(id);
-            if (activity == null)
+            try
             {
-                return NotFound();
+                var activity = _runActivityService.GetActivity(id);
+                if (activity == null)
+                {
+                    return NotFound();
+                }
+                return Ok(activity);
             }
-            return Ok(activity);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving activity");
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("GetAllActivities")]
         public IActionResult GetAllActivities()
         {
-            var activities = _runActivityService.GetAllActivities();
-            return Ok(activities);
+            try
+            {
+                var activities = _runActivityService.GetAllActivities();
+                return Ok(activities);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all activities");
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpPost("AddActivity")]
         public IActionResult AddActivity(RunActivity activity)
         {
-            _runActivityService.AddActivity(activity);
-            return Ok("Activity added successfully.");
+            try
+            {
+                _runActivityService.AddActivity(activity);
+                return Ok("Activity added successfully.");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating activity");
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpPut("UpdateActivity")]
         public IActionResult UpdateActivity(RunActivity activity)
         {
-            _runActivityService.UpdateActivity(activity);
-           return Ok("User updated successfully.");
+            try
+            {
+                _runActivityService.UpdateActivity(activity);
+                return Ok("User updated successfully.");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating activity");
+                return BadRequest(ex.Message);
+            }
+           
         }
 
         [HttpDelete("DeleteActivity/{id}")]
@@ -127,7 +179,8 @@ namespace RunTracker.API.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                _logger.LogError(ex, "Error occurred while deleting activity");
+                return BadRequest(ex.Message);
             }
         }
     }
