@@ -20,17 +20,19 @@ namespace RunTracker.API.Controllers
             _logger = logger;
         }
 
+        #region User
+        // User Section
         [HttpPost("AddUser")]
         public IActionResult AddUser(User user)
         {  
             try
             {
                 _userService.AddUser(user);
-                return Ok("User added successfully.");
+                return Ok($"User {user.Name} added successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving user");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while retrieving user");
                 return BadRequest(ex.Message);
             }
         }
@@ -39,13 +41,15 @@ namespace RunTracker.API.Controllers
         public IActionResult DeleteUser(int id)
         {
             try
-            {
+            {   
+                var user = _userService.GetUser(id);
                 _userService.DeleteUser(id);
-                return Ok("User deleted successfully.");
+                
+                return Ok($"User {user.Name} deleted successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while deleting user");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while deleting user");
                 return BadRequest(ex.Message);
             }
         }
@@ -60,7 +64,7 @@ namespace RunTracker.API.Controllers
            }
            catch(Exception ex)
            {
-                _logger.LogError(ex, "Error occurred while retrieving all users");
+                _logger.LogError(ex, $"{DateTime.Now}: occurred while retrieving all users");
                 return BadRequest(ex.Message);
            }
         }
@@ -74,13 +78,13 @@ namespace RunTracker.API.Controllers
 
                 if (user == null)
                 {
-                    return NotFound("User not found.");
+                    return NotFound($"User {user.Name} not found.");
                 }
 
                 return Ok(user);
             }
             catch(Exception ex){
-                _logger.LogError(ex, "Error occurred while retrieving user");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while retrieving user");
                 return BadRequest(ex.Message);
             }
         }
@@ -91,16 +95,18 @@ namespace RunTracker.API.Controllers
             try
             {
                 _userService.UpdateUser(user);
-                return Ok("User updated successfully.");
+                return Ok($"User {user.Name} updated successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving user");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while retrieving user");
                 return BadRequest(ex.Message);
             }
         }
+        #endregion User
 
-        // Activity 
+        #region Activity
+        // Activity Section
         [HttpGet("GetActivity/{id}")]
         public IActionResult GetActivity(int id)
         {
@@ -115,7 +121,7 @@ namespace RunTracker.API.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving activity");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while retrieving activity");
                 return BadRequest(ex.Message);
             }
             
@@ -131,7 +137,7 @@ namespace RunTracker.API.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while retrieving all activities");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while retrieving all activities");
                 return BadRequest(ex.Message);
             }
             
@@ -143,11 +149,12 @@ namespace RunTracker.API.Controllers
             try
             {
                 _runActivityService.AddActivity(activity);
-                return Ok("Activity added successfully.");
+                var user = _userService.GetUser(activity.UserId.Value);
+                return Ok($"Activity added successfully to {user.Name}.");
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating activity");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while creating activity");
                 return BadRequest(ex.Message);
             }
             
@@ -159,11 +166,12 @@ namespace RunTracker.API.Controllers
             try
             {
                 _runActivityService.UpdateActivity(activity);
-                return Ok("User updated successfully.");
+                var user = _userService.GetUser(activity.UserId.Value);
+                return Ok($"Activity updated successfully to {user.Name}.");
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating activity");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while updating activity");
                 return BadRequest(ex.Message);
             }
            
@@ -175,14 +183,15 @@ namespace RunTracker.API.Controllers
             try
             {
                 _runActivityService.DeleteActivity(id);
-                return Ok("Activity deleted successfully.");
+                return Ok($"Activity {id} is deleted successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while deleting activity");
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred while deleting activity");
                 return BadRequest(ex.Message);
             }
         }
+        #endregion Activity
     }
 
 }

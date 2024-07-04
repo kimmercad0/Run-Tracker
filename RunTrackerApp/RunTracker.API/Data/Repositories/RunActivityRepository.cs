@@ -4,12 +4,10 @@ namespace RunTracker.API.Data.Repositories{
     public class RunActivityRepository : IRepository<RunActivity>
     {
         private readonly RunTrackerDbContext _context;
-        private readonly ILogger<RunActivityRepository> _logger;
 
-        public RunActivityRepository(RunTrackerDbContext context, ILogger<RunActivityRepository> logger) 
+        public RunActivityRepository(RunTrackerDbContext context) 
         {
             _context = context;
-            _logger = logger;
         }
 
         public RunActivity GetById(int id)

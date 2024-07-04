@@ -17,47 +17,83 @@ namespace RunTracker.API.Services{
 
         public void AddActivity(RunActivity activity)
         {
-             // Calculate the Duration and AveragePace
-            activity.Duration = activity.DateTimeEnded - activity.DateTimeStarted;
+            try
+            {
+                _logger.LogInformation($"Inserting Activity");
+                // Calculate the Duration and AveragePace
+                activity.Duration = activity.DateTimeEnded - activity.DateTimeStarted;
+                activity.AveragePace = TimeSpan.FromTicks(activity.Duration.Ticks / (long)activity.Distance);
 
-            double paceSecondsPerKm = activity.Duration.TotalSeconds / (double)activity.Distance;
-            activity.AveragePace = TimeSpan.FromSeconds(paceSecondsPerKm);
-
-            _actRepository.Add(activity);
-            
+                _actRepository.Add(activity);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(AddActivity)}");
+                throw;
+            }
         }
 
         public void DeleteActivity(int id)
         {
-            var activity = _actRepository.GetById(id);
-            
-            if(activity == null)
+            try
             {
-                throw new Exception();
+                _logger.LogInformation($"Deleting Activity ID: {id}");
+                var activity = _actRepository.GetById(id);
+                _actRepository.Delete(activity);
             }
-
-            _actRepository.Delete(activity);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(DeleteActivity)}");
+                throw;
+            }
         }
 
         public RunActivity GetActivity(int id)
         {
-            return _actRepository.GetById(id) ?? null;
+            try
+            {
+                _logger.LogInformation($"Retrieving Activity ID: {id}");
+                return _actRepository.GetById(id) ?? null;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(GetActivity)}");
+                throw;
+            }
+           
         }
 
         public IEnumerable<RunActivity> GetAllActivities()
         {
-            return _actRepository.GetAll();
+            try
+            {
+                _logger.LogInformation($"Retrieving All Activities");
+                return _actRepository.GetAll();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(GetAllActivities)}");
+                throw;
+            }
+           
         }
 
         public void UpdateActivity(RunActivity activity)
         {
-            // Calculate the Duration and AveragePace
-            activity.Duration = activity.DateTimeEnded - activity.DateTimeStarted;
+            try
+            {
+                _logger.LogInformation($"Updating Activity ID: {activity.RunId}");
+                // Calculate the Duration and AveragePace
+                activity.Duration = activity.DateTimeEnded - activity.DateTimeStarted;
+                activity.AveragePace = TimeSpan.FromTicks(activity.Duration.Ticks / (long)activity.Distance);
 
-            double paceSecondsPerKm = activity.Duration.TotalSeconds / (double)activity.Distance;
-            activity.AveragePace = TimeSpan.FromSeconds(paceSecondsPerKm);
-
-            _actRepository.Update(activity);
+                _actRepository.Update(activity);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"{DateTime.Now}: Error occurred in {nameof(UpdateActivity)}");
+                throw;
+            }
         }
     }
 }
