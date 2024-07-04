@@ -1,0 +1,9 @@
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100) NOT NULL,
+    Weight DECIMAL(5, 2) NOT NULL,
+    Height DECIMAL(5, 2) NOT NULL,
+    BirthDate DATETIME NOT NULL,
+    Age INT NULL,
+    BMI DECIMAL(5, 2) NULL
+);
